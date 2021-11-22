@@ -1,3 +1,6 @@
+// Short lab demonstrating using structs in C
+// @Ananth if you're reading this, this confirms C is a painful language
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
