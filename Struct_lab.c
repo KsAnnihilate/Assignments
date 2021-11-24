@@ -1,5 +1,12 @@
-// Short lab demonstrating using structs in C
-// @Ananth if you're reading this, this confirms C is a painful language
+// @Ananth if you're reading this, this confirms C is a painful language :')
+
+
+// Filename: Struct_lab.c
+// Program author: [redacted]
+// Program date: 23 November 2021
+// Program description: This code implements a Student struct and an Address
+//                      struct in accordance with [Assignment]. More details
+//                      are given in comments below. 
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,7 +34,10 @@ enum InfoType {NAME, FNAME, MNAME, LNAME, ID, GRADE, ADDRESS,
   * My implementation of this breakdown assumes that addresses are in the US
   * and have positive house numbers and postal codes. The only exception I
   * chose to handle is when there is no street type, as I wanted to play
-  * around with ternary operators. My program ignores all other exceptions.
+  * around with ternary operators. My program ignores all other exceptions,
+  * such as those detailed here:
+  *
+  * https://www.mjt.me.uk/posts/falsehoods-programmers-believe-about-addresses/
  */
 typedef struct address
 {
@@ -58,7 +68,7 @@ typedef struct student
   char* lastName;
   unsigned int studentID;
   unsigned int grade;
-  struct address address;
+  Address address;
 } Student;
 
 /*
@@ -129,12 +139,13 @@ int main(void)
   Student student6;
   Address address6;
 
+  // Array to hold all `Student` records
   Student studentSet[SIZE] = {NULL};
 
   // Fill the first four students with actual structs with valid data
-  address1 = createAddress(1, "New Road", "", "City",
-                           "State", 12345);
-  student1 = createStudent("First", "Middle", "Last", 955083, 11, address1);
+  address1 = createAddress(1, "StreetWithNoType", "", "City1",
+                           "SD", 57301);
+  student1 = createStudent("First", "Middle", "Last", 011942, 5, address1);
 
   address2 = createAddress(2, "Test", "Drive", "New York City", "NY", 10001);
   student2 = createStudent("Peter", "Jack", "Phillips", 803426, 9, address2);
@@ -147,98 +158,129 @@ int main(void)
 
   // In case you want to manually define students 5 and 6 instead of
   // prompting user input
-  address5 = createAddress(5, "Five", "Road", "Washington DC", "DC", 20374);
-  student5 = createStudent("Alice", "J.", "O'Sullivan", 515253, 3, address5);
+  // address5 = createAddress(5, "Five", "Road", "Washington DC", "DC", 20374);
+  // student5 = createStudent("Alice", "J.", "O'Sullivan", 515253, 3, address5);
+  //
+  // address6 = createAddress(6, "West Six", "Boulevard", "Seattle", "WA", 60610);
+  // student6 = createStudent("Rick", "A. B.", "McDonald", 646566, 2, address6);
 
-  address6 = createAddress(6, "West Six", "Boulevard", "Seattle", "WA", 60610);
-  student6 = createStudent("Rick", "A. B.", "McDonald", 646566, 2, address6);
+  // Temporary variables to store user-inputted data
+  char* tempFName5 = malloc(sizeof(char) * 25);
+  char* tempMName5 = malloc(sizeof(char) * 25);
+  char* tempLName5 = malloc(sizeof(char) * 25);
+  unsigned int tempID5;
+  unsigned int tempGrade5;
 
-  // // Temporary variables to store user-inputted data
-  // char* tempFName5 = malloc(sizeof(char) * 25);
-  // char* tempMName5 = malloc(sizeof(char) * 25);
-  // char* tempLName5 = malloc(sizeof(char) * 25);
-  // unsigned int tempID5;
-  // unsigned int tempGrade5;
-  //
-  // unsigned int tempHNum5;
-  // char* tempSName5 = malloc(sizeof(char) * 25);
-  // char* tempSType5 = malloc(sizeof(char) * 25);
-  // char* tempCity5 = malloc(sizeof(char) * 25);
-  // char* tempState5 = malloc(sizeof(char) * 25);
-  // unsigned int tempPC5;
-  //
-  // char* tempFName6 = malloc(sizeof(char) * 25);
-  // char* tempMName6 = malloc(sizeof(char) * 25);
-  // char* tempLName6 = malloc(sizeof(char) * 25);
-  // unsigned int tempID6;
-  // unsigned int tempGrade6;
-  //
-  // unsigned int tempHNum6;
-  // char* tempSName6 = malloc(sizeof(char) * 25);
-  // char* tempSType6 = malloc(sizeof(char) * 25);
-  // char* tempCity6 = malloc(sizeof(char) * 25);
-  // char* tempState6 = malloc(sizeof(char) * 25);
-  // unsigned int tempPC6;
-  //
-  // // Take user input for the fifth `Student`
-  // printf("\nStudent 5 - Please enter a first name: ");
-  // scanf("%s", tempFName5);
-  // printf("\nStudent 5 - Please enter a middle name: ");
-  // scanf("%s", tempMName5);
-  // printf("\nStudent 5 - Please enter a last name: ");
-  // scanf("%s", tempLName5);
-  // printf("\nStudent 5 - Please enter a student ID: ");
-  // scanf("%u", &tempID5);
-  // printf("\nStudent 5 - Please enter a grade: ");
-  // scanf("%u", &tempGrade5);
-  //
-  // printf("\nStudent 5 Address - Please enter a house number: ");
-  // scanf("%u", &tempHNum5);
-  // printf("\nStudent 5 Address - Please enter a street name: ");
-  // scanf("%s", tempSName5);
-  // printf("\nStudent 5 Address - Please enter a street type: ");
-  // scanf("%s", tempSType5);
-  // printf("\nStudent 5 Address - Please enter a city: ");
-  // scanf("%s", tempCity5);
-  // printf("\nStudent 5 Address - Please enter a state: ");
-  // scanf("%s", tempState5);
-  // printf("\nStudent 5 Address - Please enter a postal code: ");
-  // scanf("%u", &tempPC5);
-  //
-  // address5 = createAddress(tempHNum5, tempSName5, tempSType5, tempCity5,
-  //   tempState5, tempPC5);
-  // student5 = createStudent(tempFName5, tempMName5, tempLName5, tempID5,
-  //   tempGrade5, address5);
-  //
-  // // Take user input for the sixth `Student`
-  // printf("\nStudent 6 - Please enter a first name: ");
-  // scanf("%s", tempFName6);
-  // printf("\nStudent 6 - Please enter a middle name: ");
-  // scanf("%s", tempMName6);
-  // printf("\nStudent 6 - Please enter a last name: ");
-  // scanf("%s", tempLName6);
-  // printf("\nStudent 6 - Please enter a student ID: ");
-  // scanf("%u", &tempID6);
-  // printf("\nStudent 6 - Please enter a grade: ");
-  // scanf("%u", &tempGrade6);
-  //
-  // printf("\nStudent 6 Address - Please enter a house number: ");
-  // scanf("%u", &tempHNum6);
-  // printf("\nStudent 6 Address - Please enter a street name: ");
-  // scanf("%s", tempSName6);
-  // printf("\nStudent 6 Address - Please enter a street type: ");
-  // scanf("%s", tempSType6);
-  // printf("\nStudent 6 Address - Please enter a city: ");
-  // scanf("%s", tempCity6);
-  // printf("\nStudent 6 Address - Please enter a state: ");
-  // scanf("%s", tempState6);
-  // printf("\nStudent 6 Address - Please enter a postal code: ");
-  // scanf("%u", &tempPC6);
-  //
-  // address6 = createAddress(tempHNum6, tempSName6, tempSType6, tempCity6,
-  //   tempState6, tempPC6);
-  // student6 = createStudent(tempFName6, tempMName6, tempLName6, tempID6,
-  //   tempGrade6, address6);
+  unsigned int tempHNum5;
+  char* tempSName5 = malloc(sizeof(char) * 25);
+  char* tempSType5 = malloc(sizeof(char) * 25);
+  char* tempCity5 = malloc(sizeof(char) * 25);
+  char* tempState5 = malloc(sizeof(char) * 25);
+  unsigned int tempPC5;
+
+  char* tempFName6 = malloc(sizeof(char) * 25);
+  char* tempMName6 = malloc(sizeof(char) * 25);
+  char* tempLName6 = malloc(sizeof(char) * 25);
+  unsigned int tempID6;
+  unsigned int tempGrade6;
+
+  unsigned int tempHNum6;
+  char* tempSName6 = malloc(sizeof(char) * 25);
+  char* tempSType6 = malloc(sizeof(char) * 25);
+  char* tempCity6 = malloc(sizeof(char) * 25);
+  char* tempState6 = malloc(sizeof(char) * 25);
+  unsigned int tempPC6;
+
+  // Take user input for the fifth `Student`
+  printf("\nStudent 5 - Please enter a first name: ");
+  scanf("%100[^\n]", tempFName5);
+
+  printf("\nStudent 5 - Please enter a middle name: ");
+  getchar();
+  scanf("%100[^\n]", tempMName5);
+
+  printf("\nStudent 5 - Please enter a last name: ");
+  getchar();
+  scanf("%100[^\n]", tempLName5);
+
+  printf("\nStudent 5 - Please enter a student ID: ");
+  scanf("%u", &tempID5);
+
+  printf("\nStudent 5 - Please enter a grade: ");
+  scanf("%u", &tempGrade5);
+
+  printf("\nStudent 5 Address - Please enter a house number: ");
+  scanf("%u", &tempHNum5);
+
+  printf("\nStudent 5 Address - Please enter a street name: ");
+  getchar();
+  scanf("%100[^\n]", tempSName5);
+
+  printf("\nStudent 5 Address - Please enter a street type: ");
+  getchar();
+  scanf("%100[^\n]", tempSType5);
+
+  printf("\nStudent 5 Address - Please enter a city: ");
+  getchar();
+  scanf("%100[^\n]", tempCity5);
+
+  printf("\nStudent 5 Address - Please enter a state: ");
+  getchar();
+  scanf("%100[^\n]", tempState5);
+
+  printf("\nStudent 5 Address - Please enter a postal code: ");
+  scanf("%u", &tempPC5);
+
+  address5 = createAddress(tempHNum5, tempSName5, tempSType5, tempCity5,
+    tempState5, tempPC5);
+  student5 = createStudent(tempFName5, tempMName5, tempLName5, tempID5,
+    tempGrade5, address5);
+
+  // Take user input for the sixth `Student`
+  printf("\nStudent 6 - Please enter a first name: ");
+  getchar();
+  scanf("%100[^\n]", tempFName6);
+
+  printf("\nStudent 6 - Please enter a middle name: ");
+  getchar();
+  scanf("%100[^\n]", tempMName6);
+
+  printf("\nStudent 6 - Please enter a last name: ");
+  getchar();
+  scanf("%100[^\n]", tempLName6);
+
+  printf("\nStudent 6 - Please enter a student ID: ");
+  scanf("%u", &tempID6);
+
+  printf("\nStudent 6 - Please enter a grade: ");
+  scanf("%u", &tempGrade6);
+
+  printf("\nStudent 6 Address - Please enter a house number: ");
+  scanf("%u", &tempHNum6);
+
+  printf("\nStudent 6 Address - Please enter a street name: ");
+  getchar();
+  scanf("%100[^\n]", tempSName6);
+
+  printf("\nStudent 6 Address - Please enter a street type: ");
+  getchar();
+  scanf("%100[^\n]", tempSType6);
+
+  printf("\nStudent 6 Address - Please enter a city: ");
+  getchar();
+  scanf("%100[^\n]", tempCity6);
+
+  printf("\nStudent 6 Address - Please enter a state: ");
+  getchar();
+  scanf("%100[^\n]", tempState6);
+
+  printf("\nStudent 6 Address - Please enter a postal code: ");
+  scanf("%u", &tempPC6);
+
+  address6 = createAddress(tempHNum6, tempSName6, tempSType6, tempCity6,
+    tempState6, tempPC6);
+  student6 = createStudent(tempFName6, tempMName6, tempLName6, tempID6,
+    tempGrade6, address6);
 
   // Place the first five students into the array
   addStudent(studentSet, student1);
@@ -262,6 +304,9 @@ int main(void)
 
   printf("\nStudent 5 initially:\n");
   testStudentData(studentSet[4]);
+
+  printf("\nStudent 6 initially (not in array):\n");
+  testStudentData(student6);
 
   // Delete Student 1
   deleteStudent(studentSet, student1);
@@ -481,7 +526,7 @@ char* getStudentInfo(Student student, int infoType)
 /*
  * Sets a member of an `Address` given an infoType and new data.
  *
- * Note: Please see line 83 for why this function takes both newDataC and
+ * Note: Please see line 97 for why this function takes both newDataC and
  * newDataU as parameters.
 */
 void setAddressInfo(Address* address, int infoType, char* newDataC,
@@ -546,7 +591,7 @@ void setAddressInfo(Address* address, int infoType, char* newDataC,
 /*
  * Sets a member of a `Student` given an infoType and new data.
  *
- * Note: Please see line 83 for why this function takes both newDataC and
+ * Note: Please see line 97 for why this function takes both newDataC and
  * newDataU as parameters.
 */
 void setStudentInfo(Student* student, int infoType, char* newDataC,
@@ -570,8 +615,6 @@ void setStudentInfo(Student* student, int infoType, char* newDataC,
   {
     switch(infoType)
     {
-      case NAME:
-
       case FNAME:
         student->firstName = newDataC;
         break;
@@ -588,10 +631,6 @@ void setStudentInfo(Student* student, int infoType, char* newDataC,
         printf("Please change each part of the address individually.\n");
         break;
 
-      case HNUM:
-        student->address.houseNumber = newDataU;
-        break;
-
       case SNAME:
         student->address.streetName = newDataC;
         break;
@@ -606,10 +645,6 @@ void setStudentInfo(Student* student, int infoType, char* newDataC,
 
       case STATE:
         student->address.state = newDataC;
-        break;
-
-      case PC:
-        student->address.postalCode = newDataU;
         break;
 
       default:
@@ -629,6 +664,14 @@ void setStudentInfo(Student* student, int infoType, char* newDataC,
         student->grade = newDataU;
         break;
 
+      case HNUM:
+        student->address.houseNumber = newDataU;
+        break;
+
+      case PC:
+        student->address.postalCode = newDataU;
+        break;
+
       default:
         printf("ERROR: Invalid info type.\n");
     }
@@ -646,7 +689,7 @@ void addStudent(Student studentSet[SIZE], Student student)
   {
     // Searches for an empty position by checking an arbitrarily chosen member
     // and checking if it is NULL or "", as a filled position will have a
-    // `Student` whose members are neither.
+    // `Student` whose members are neither. 
     if (studentSet[i].firstName == NULL ||
         strcmp(studentSet[i].firstName, "") == 0)
     {
